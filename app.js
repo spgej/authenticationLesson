@@ -37,7 +37,7 @@ app.get("/register", (req, res) => {
   res.render("register");
 });
 
-app.post("/register", (req, res)=>{
+app.post("/register", (req, res) => {
 
   const username = req.body.username;
   const password = req.body.password;
@@ -47,14 +47,26 @@ app.post("/register", (req, res)=>{
     password: password
   });
 
-  newUser.save((err)=>{
-    if(!err) {
+  newUser.save((err) => {
+    if (!err) {
       res.render("secrets");
     }
   });
-
 });
 
+app.post("/login", (req, res) => {
+
+  const username = req.body.username;
+  const password = req.body.password;
+
+  User.findOne({
+    email: username,
+  }, (err, foundUser) => {
+    if (foundUser.email == username && foundUser.password === password) {
+      res.render("secrets");
+    };
+  });
+});
 
 
 
